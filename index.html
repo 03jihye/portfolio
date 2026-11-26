@@ -2325,16 +2325,15 @@ addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'
 const SITE='https://ixam-art-portfolio.vercel.app';
 const pics=["img/sel-blonde.webp", "img/sel-racer.webp", "img/sel-fig0.webp", "img/sel-frame0.webp", "img/sel-face0.webp", "img/sel-cat.webp", "img/sel-lips.webp", "img/sel-fig1.webp", "img/sel-purple.webp", "img/sel-squat.webp", "img/sel-ive.webp", "img/sel-face1.webp", "img/sel-ink.webp", "img/sel-frame1.webp", "img/sel-face2.webp", "img/sel-heart.webp", "img/sel-gray.webp", "img/sel-face3.webp", "img/sel-braids.webp", "img/sel-real.webp", "img/sel-face4.webp", "img/sel-frame2.webp", "img/sel-sun.webp", "img/sel-fig4.webp"];
 /* 메이슨리: 그림은 한 번씩만, 화면을 다 채우는 가장 많은 열 수를 골라 가장 짧은 열에 차례로 쌓기 */
-const art=$('#art');let ims=[];
+const art=$('#art');let ims=[];const OY=0;
 function lay(){const W=art.clientWidth,H=art.clientHeight,G=14;if(!W||ims.some(i=>!i.naturalWidth))return;
  const cw=innerWidth<700?150:210,chh=cw*1.33,n=Math.ceil((W+G)/(cw+G)),per=Math.ceil((H+cw*1.4)/(chh+G))+1;art.style.setProperty('--cw',cw+'px');
- /* 무작위 배치: 덜 쓴 그림부터 고르되, 위아래·옆 칸에 같은 그림이 오지 않게 */
- const N=ims.length,used=new Array(N).fill(0),grid=[...Array(n)].map(()=>[]),pos=[...Array(N)].map(()=>[]);
- const cols=grid.map(()=>{const d=document.createElement('div');d.className='col';d.style.marginTop=(-Math.random()*cw*1.1)+'px';return d});
- for(let r=0;r<per;r++)for(const c of [...Array(n).keys()].sort(()=>Math.random()-.5)){
-  const m=Math.min(...used);let best=-1,bd=-1;
-  for(const i of [...Array(N).keys()].sort(()=>Math.random()-.5)){if(used[i]>m+1)continue;let d=1e9;for(const [pc,pr] of pos[i])d=Math.min(d,Math.hypot((pc-c)*1.25,pr-r));const sc=d-(used[i]-m)*3+Math.random()*.4;if(sc>bd){bd=sc;best=i}}
-  grid[c][r]=best;used[best]++;pos[best].push([c,r])}
+ /* 고정 배치: 매번 같은 자리 (가운데 기준으로 열을 놓고 넘치는 열은 양옆에서 잘림) */
+ const FIX=[[8,19,4,13,22,6,2],[14,9,0,21,16,3,7],[17,11,18,23,5,20,12],[3,2,12,10,4,13,19],[4,20,16,9,21,6,1],[22,1,8,0,3,18,17],[14,15,19,5,7,11,2],[10,13,7,6,20,16,23],[21,0,22,1,15,9,4],[12,3,11,16,19,8,10]];
+ const OFF=[-60,20,-76,-137,-154,-25,85,-19,-150,-50].map(v=>v+OY);
+ const N=ims.length,used=new Array(N).fill(0),grid=FIX.map(col=>[...Array(per)].map((_,r)=>col[r%col.length]));
+ const cols=grid.map((_,c)=>{const d=document.createElement('div');d.className='col';d.style.marginTop=(OFF[c]*cw/210)+'px';return d});
+ grid.forEach(col=>col.forEach(i=>used[i]++));
  grid.forEach((col,c)=>col.forEach((i,r)=>{const src=ims[i],im=src.parentNode||r+c>0&&used[i]>0&&src.dataset.u?src.cloneNode():src;src.dataset.u=1;
   const k=Math.min(1,cw/src.naturalWidth,chh/src.naturalHeight);im.style.width=Math.round(src.naturalWidth*k)+'px';
   const cd=document.createElement('div');cd.className='cd';cd.appendChild(im);cols[c].appendChild(cd)}));
