@@ -26,7 +26,7 @@ TYPE   : Pretendard 800 헤드라인 / JetBrains Mono 상태 표시.
 :root{--bg:#0c0b10;--bg2:#14131a;--line:#2a2833;--ink:#f3efe7;--dim:#9b97a3;--mute:#5f5b68;--acc:#ff5d73;--acc2:#ffb3bd;
 --sans:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
 *{box-sizing:border-box;min-width:0}
-html{scroll-behavior:smooth;scroll-padding-top:70px}
+html{overflow-x:clip;scroll-behavior:smooth;scroll-padding-top:70px}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased;word-break:keep-all}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
@@ -866,6 +866,7 @@ footer{padding:30px max(6vw,56px) 70px;display:flex;justify-content:space-betwee
 .mbhero{padding-top:42vh}
 @media (min-width:901px){.mbhero{min-height:min(50vw,88vh)!important;padding-top:min(20vw,36vh)}.mbover h2{font-size:clamp(40px,4.6vw,72px);margin:6px 0 14px}.mbover{margin-bottom:4vh!important}}
 @media (max-width:900px){.mbhero{padding-top:30vh}.mbover{width:calc(100% - 48px)!important}}
+@media (max-width:900px){.mbhero.ockey,.mbhero.gmkey{min-height:0!important;padding-top:26vh}}
 #trail{position:fixed;inset:0;width:100%;height:100%;z-index:45;pointer-events:none}
 .scratch{z-index:1}
 
