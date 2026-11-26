@@ -55,7 +55,7 @@ nav a:hover,nav a.on{color:var(--ink);background:#ffffff10}
 .rail .fill{position:absolute;left:0;top:0;width:2px;height:0;background:linear-gradient(180deg,#ff8fa3,#ffb38a,#ffe08a,#9be0b4,#8fc4ff,#c3a6ff);background-size:100% 100vh;background-attachment:fixed;box-shadow:0 0 10px #ff8fa3,0 0 22px #c3a6ff80}
 .rail .dot{position:absolute;left:-4px;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px #0c0b10,0 0 14px #fff,0 0 28px #ff8fa3;transform:translateY(-5px)}
 .side{position:fixed;right:max(2vw,12px);top:50%;transform:translateY(-50%) rotate(90deg);transform-origin:right center;z-index:15;color:var(--mute)}
-#cur{position:fixed;left:0;top:0;width:14px;height:14px;border:1.5px solid var(--acc);border-radius:50%;pointer-events:none;z-index:50;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s;display:grid;place-items:center;font:600 10px var(--mono);color:#fff}
+#cur{position:fixed;left:0;top:0;will-change:transform;contain:layout style;width:14px;height:14px;border:1.5px solid var(--acc);border-radius:50%;pointer-events:none;z-index:50;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s;display:grid;place-items:center;font:600 10px var(--mono);color:#fff}
 #cur.big{width:68px;height:68px;background:var(--acc);border-color:var(--acc)}
 @media (hover:none){#cur{display:none}}
 
@@ -2315,7 +2315,8 @@ addEventListener('scroll',onScroll,{passive:true});onScroll();
 
 /* cursor, tilt, hud coords */
 const cur=$('#cur');let mx=innerWidth/2,my=innerHeight/2;
-addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';
+let curRaf=0;const curMove=()=>{curRaf=0;cur.style.transform=`translate3d(${mx}px,${my}px,0) translate(-50%,-50%)`};
+addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(!curRaf)curRaf=requestAnimationFrame(curMove);
  let hot=e.target.closest('a,button,[data-lb],#sheetStage,.sdgo');if(hot&&hot.matches('[data-lb]')&&hot.closest('#gpage'))hot=null;cur.classList.toggle('big',!!hot);cur.textContent=hot?(hot.matches('[data-lb],#sheetStage')?'ZOOM':'VIEW'):''});
 
 
@@ -2381,11 +2382,11 @@ if(!reduce)setTimeout(()=>{const t0=performance.now(),dur=1100,w=W,h=H,wide=inne
 
 /* 마우스가 지나간 자리에 남았다가 사라지는 핑크 붓선 */
 if($('#trail')){const tr=$('#trail'),tx=tr.getContext('2d');let pts=[],on=false;
- function rs(){const d=Math.min(devicePixelRatio||1,2);tr.width=innerWidth*d;tr.height=innerHeight*d;tx.setTransform(d,0,0,d,0,0)}
+ function rs(){const d=1;tr.width=innerWidth*d;tr.height=innerHeight*d;tx.setTransform(d,0,0,d,0,0)}
  rs();addEventListener('resize',rs);
  addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||reduce)return;pts.push({x:e.clientX,y:e.clientY,t:performance.now()});if(!on){on=true;requestAnimationFrame(f)}},{passive:true});
  addEventListener('scroll',()=>{pts=[]},{passive:true});
- function f(){const now=performance.now();pts=pts.filter(p=>now-p.t<650);tx.clearRect(0,0,innerWidth,innerHeight);tx.lineCap='round';tx.lineJoin='round';
+ let bx=null;function f(){const now=performance.now();pts=pts.filter(p=>now-p.t<650);if(pts.length>60)pts=pts.slice(-60);if(bx)tx.clearRect(bx[0]-8,bx[1]-8,bx[2]-bx[0]+16,bx[3]-bx[1]+16);bx=null;for(const p of pts){if(!bx)bx=[p.x,p.y,p.x,p.y];else{bx[0]=Math.min(bx[0],p.x);bx[1]=Math.min(bx[1],p.y);bx[2]=Math.max(bx[2],p.x);bx[3]=Math.max(bx[3],p.y)}}tx.lineCap='round';tx.lineJoin='round';
   for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i],k=1-(now-b.t)/650;tx.strokeStyle=`rgba(255,93,115,${k*.6})`;tx.lineWidth=k*5+.5;tx.beginPath();tx.moveTo(a.x,a.y);tx.lineTo(b.x,b.y);tx.stroke()}
   if(pts.length)requestAnimationFrame(f);else{on=false;tx.clearRect(0,0,innerWidth,innerHeight)}}}
 
