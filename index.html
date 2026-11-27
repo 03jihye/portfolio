@@ -1793,7 +1793,7 @@ section:has(> .ockey){padding-top:0!important}
 .gor{--x:0}
 .gog.scrub .gogp{box-shadow:inset 0 0 0 2px #ffe27a55}
 .gor img{cursor:crosshair!important}
-#lb img{transition:opacity .25s ease}
+#lb img{transition:opacity .25s ease}#lb img.lbbp{position:fixed;display:none;width:110px!important;height:auto!important;max-width:none!important;max-height:none!important;background:none!important;border-radius:0!important;opacity:.9;pointer-events:none;filter:none;transition:none;z-index:2}@media (max-width:600px){#lb img.lbbp{width:80px!important}}
 #lb{animation:lbin .2s ease}@keyframes lbin{from{opacity:0}}
 .gor.lock span b{color:#ffe27a}.gor.lock::after{content:"▶";position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:10px;color:#ffe27a}.gor{cursor:pointer}
 .gintro .gl{display:block;margin-bottom:.35em}.gintro .gw{opacity:.14;transition:opacity .35s,filter .35s;filter:blur(1px)}.gintro .gw.on{opacity:1;filter:none}
@@ -2096,7 +2096,7 @@ section:has(> .ockey){padding-top:0!important}
 </main>
 <footer class="mono"><span>© 2026 JIHYE JANG</span><span>PAGE BY PAGE — 한 장씩, 더 선명하게.</span></footer>
 
-<div id="lb" role="dialog" aria-label="이미지 크게 보기"><img alt="" loading="lazy" decoding="async"><div class="cap mono"></div><button type="button" class="lbnav prev" aria-label="이전">‹</button><button type="button" class="lbnav next" aria-label="다음">›</button></div>
+<div id="lb" role="dialog" aria-label="이미지 크게 보기"><img alt="" loading="lazy" decoding="async"><img class="lbbp" src="img/logo-bucketplay-c.png" alt="© BUCKETPLAY" decoding="async"><div class="cap mono"></div><button type="button" class="lbnav prev" aria-label="이전">‹</button><button type="button" class="lbnav next" aria-label="다음">›</button></div>
 
 <script>
 {
@@ -2128,7 +2128,7 @@ const models=["img/model-twins.webp", "img/model-musician.webp", "img/model-pika
   $('#selpts').innerHTML=x.info.map(f=>`<li><span>${f[0]}</span><div><b>${f[1]}</b><p>${f[2]}</p></div></li>`).join('');box.classList.remove('swap')};
   if(anim&&!reduce){box.classList.add('swap');setTimeout(go,320)}else go()}
  chips.addEventListener('click',e=>{const b=e.target.closest('.pchip');if(!b)return;pick(cards.indexOf(b));burst(b)});
- $('#selpaper').addEventListener('click',()=>openLb(sh.src,sh.alt));$('#selmodel').addEventListener('click',()=>openLb(mi.src,mi.alt));
+ $('#selpaper').addEventListener('click',()=>openLb(sh.src,sh.alt,1));$('#selmodel').addEventListener('click',()=>openLb(mi.src,mi.alt,1));
  function burst(chip){if(reduce)return;const ring=chip.querySelector('.ring'),c=getComputedStyle(chip).getPropertyValue('--c');
   for(let k=0;k<14;k++){const p=document.createElement('i');p.className='spark'+(k%3===0?' st':'');const a=Math.PI*2*k/14+Math.random()*.3,d=44+Math.random()*28;
    p.style.setProperty('--dx',Math.cos(a)*d+'px');p.style.setProperty('--dy',Math.sin(a)*d+'px');p.style.setProperty('--rt',(Math.random()*360-180)+'deg');
@@ -2181,7 +2181,7 @@ const models=["img/model-twins.webp", "img/model-musician.webp", "img/model-pika
  sw.addEventListener('click',e=>{const b=e.target.closest('button');if(b)setRow([...sw.children].indexOf(b))});
  seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;box.classList.toggle('v3d',b.dataset.v==='3d');[...seg.querySelectorAll('button')].forEach(x=>x.classList.toggle('on',x===b))});
  if(SK.length<2)chips.hidden=true;
- $('#sk2sheet').addEventListener('click',()=>{const x=SK[cur];openLb(x.vars?x.vars[row][0]:x.src,x.n+' 원화')});$('#sk2model').addEventListener('click',()=>openLb(mi.src,mi.alt));
+ $('#sk2sheet').addEventListener('click',()=>{const x=SK[cur];openLb(x.vars?x.vars[row][0]:x.src,x.n+' 원화',1)});$('#sk2model').addEventListener('click',()=>openLb(mi.src,mi.alt,1));
  pick(0,false)}
 
 
@@ -2209,7 +2209,7 @@ const models=["img/model-twins.webp", "img/model-musician.webp", "img/model-pika
 
 
 /* 원화 참여 캐릭터 얼굴 → 크게 */
-{const r=$('#rfaces');if(r)r.addEventListener('click',e=>{const b=e.target.closest('button');if(b)openLb('img/ros-'+String(b.dataset.i).padStart(2,'0')+'.webp','원화 참여 캐릭터')})}
+{const r=$('#rfaces');if(r)r.addEventListener('click',e=>{const b=e.target.closest('button');if(b)openLb('img/ros-'+String(b.dataset.i).padStart(2,'0')+'.webp','원화 참여 캐릭터',1)})}
 
 /* 마커 메모 */
 {const M={acorn:{vb:'0 0 800 450',n:[
@@ -2275,11 +2275,12 @@ if($('#mq'))$('#mq').innerHTML=[...mq,...mq].map(t=>`<span>${t}</span>`).join(''
 
 /* lightbox */
 const lb=$('#lb');
-function openLb(src,alt){lb.classList.remove('gal');src=String(src).replace(/-cut\.webp(\?v=\d+)?/,'-lb.webp');const L=lb.querySelector('img');L.style.opacity=0;lb.querySelector('.cap').textContent=alt||'';lb.classList.add('on');const n=new Image();n.src=src;(n.decode?n.decode():Promise.resolve()).catch(()=>{}).then(()=>{L.src=src;requestAnimationFrame(()=>L.style.opacity=1)})}
+function lbMark(){const k=lb.querySelector('.lbbp'),L=lb.querySelector('img');if(!k)return;if(!lb.classList.contains('bp')||!L.naturalWidth){k.style.display='none';return}const r=L.getBoundingClientRect();k.style.display='block';k.style.left=(r.right-k.offsetWidth-14)+'px';k.style.top=(r.bottom-k.offsetHeight-12)+'px'}addEventListener('resize',lbMark);
+function openLb(src,alt,bp){lb.classList.remove('gal');lb.classList.toggle('bp',!!bp);{const k=lb.querySelector('.lbbp');if(k)k.style.display='none'}src=String(src).replace(/-cut\.webp(\?v=\d+)?/,'-lb.webp');const L=lb.querySelector('img');L.style.opacity=0;lb.querySelector('.cap').textContent=alt||'';lb.classList.add('on');const n=new Image();n.src=src;(n.decode?n.decode():Promise.resolve()).catch(()=>{}).then(()=>{L.src=src;requestAnimationFrame(()=>{L.style.opacity=1;requestAnimationFrame(lbMark)})})}
 let G=null,gi=0;const gshow=()=>{const L=lb.querySelector('img'),u=G[gi],n=new Image();n.src=u;(n.decode?n.decode():Promise.resolve()).catch(()=>{}).then(()=>{if(G&&G[gi]===u)L.src=u});lb.querySelector('.cap').textContent=`${lb.dataset.t} ${gi+1} / ${G.length}`};
 lb.querySelector('.prev').onclick=e=>{e.stopPropagation();gi=(gi-1+G.length)%G.length;gshow()};lb.querySelector('.next').onclick=e=>{e.stopPropagation();gi=(gi+1)%G.length;gshow()};
 addEventListener('keydown',e=>{if(!G||!lb.classList.contains('on'))return;if(e.key==='ArrowRight'){gi=(gi+1)%G.length;gshow()}if(e.key==='ArrowLeft'){gi=(gi-1+G.length)%G.length;gshow()}});
-document.addEventListener('click',e=>{const im=e.target.closest('img[data-lb]');if(im&&!im.closest('#gpage')){if(im.dataset.gal){G=im.dataset.gal.split(',');gi=+im.dataset.gi||0;lb.dataset.t=im.alt;lb.classList.add('gal');lb.classList.add('on');gshow()}else{G=null;lb.classList.remove('gal');openLb(im.dataset.full||im.src,im.alt)}}
+document.addEventListener('click',e=>{const im=e.target.closest('img[data-lb]');if(im&&!im.closest('#gpage')){if(im.dataset.gal){G=im.dataset.gal.split(',');gi=+im.dataset.gi||0;lb.dataset.t=im.alt;lb.classList.add('gal');lb.classList.add('on');gshow()}else{G=null;lb.classList.remove('gal');openLb(im.dataset.full||im.src,im.alt,!!im.closest('#work'))}}
  const a=e.target.closest('[data-lbhref]');if(a){e.preventDefault();openLb(a.getAttribute('href'),'2025 조기취업형 계약학과 우수사례 시상식')}});
 lb.onclick=()=>lb.classList.remove('on');
 addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')});
