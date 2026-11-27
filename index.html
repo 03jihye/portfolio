@@ -268,7 +268,7 @@ figcaption{color:var(--mute);font-size:13px;margin-top:8px}
 .mbover{position:absolute;left:calc(max(0px,(100vw - 1360px)/2) + max(6vw,56px));bottom:clamp(60px,9vw,130px);z-index:2;pointer-events:none;color:var(--ink);margin:0}
 .mbover .mono{color:var(--acc);font-size:12px}
 .mbover h2{font-size:clamp(44px,6.4vw,96px);line-height:1;margin:8px 0 18px;letter-spacing:-.03em}
-.plats{display:flex;align-items:center;gap:clamp(14px,2vw,28px);flex-wrap:wrap}
+.plats .bp{height:clamp(18px,2vw,27px)}@media (max-width:600px){.plats .psep{flex-basis:100%;height:0!important;background:none!important}.plats{row-gap:12px}}.plats .psep{width:1px;height:clamp(16px,1.8vw,24px);background:#ffffff40}.plats{display:flex;align-items:center;gap:clamp(14px,2vw,28px);flex-wrap:wrap}
 .plats img{height:clamp(16px,1.8vw,24px);width:auto;opacity:.92}
 .mbhero>img{width:100%;height:110%;margin-top:-2%;object-fit:cover;object-position:60% 0%;transform-origin:60% 0%;display:block;will-change:transform;transform:translate3d(var(--mx,0),calc(var(--py,0px) + var(--rise,0px)),0) scale(var(--ps,1.03))}
 .mbover>*{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
@@ -1900,7 +1900,7 @@ section:has(> .ockey){padding-top:0!important}
   <figure class="mbhero"><img src="img/mb-keyart.webp" alt="METABALL 키 아트" loading="lazy" decoding="async">
     <figcaption class="mbover">
       <span class="mono">PAGE 01 — 대표작 · 버킷플레이 실무</span><h2>METABALL</h2>
-      <span class="plats"><img src="img/logo-steam.png" alt="Steam" loading="lazy" decoding="async"><img src="img/logo-ps.png" alt="PlayStation" loading="lazy" decoding="async"><img src="img/logo-xbox.png" alt="Xbox" loading="lazy" decoding="async"></span>
+      <span class="plats"><img class="bp" src="img/logo-bucketplay.png" alt="BUCKETPLAY" loading="lazy" decoding="async"><i class="psep" aria-hidden="true"></i><img src="img/logo-steam.png" alt="Steam" loading="lazy" decoding="async"><img src="img/logo-ps.png" alt="PlayStation" loading="lazy" decoding="async"><img src="img/logo-xbox.png" alt="Xbox" loading="lazy" decoding="async"></span>
       <div class="mbinfo">
         <p>캐릭터 헤어·의상·액세서리 원화와 제작용 시트, 스킨 베리에이션, 스탬프, 로딩 배너를 제작했습니다.</p>
         <dl class="mbfacts"><dt>역할</dt><dd>캐릭터 원화 · 참여 캐릭터 16종 이상</dd><dt>기간</dt><dd>2023.02 – 2025.03 · 약 2년 2개월</dd><dt>출시</dt><dd>2024.03 · Steam · PlayStation · Xbox</dd><dt>툴</dt><dd>Photoshop · Illustrator · Blender · 3ds Max</dd></dl>
