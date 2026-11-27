@@ -2331,7 +2331,7 @@ const art=$('#art');let ims=[];const OY=0;
 function lay(){const W=art.clientWidth,H=art.clientHeight,G=14;if(!W||ims.some(i=>!i.naturalWidth))return;
  const cw=innerWidth<700?150:210,chh=cw*1.33,n=Math.ceil((W+G)/(cw+G)),per=Math.ceil((H+cw*1.4)/(chh+G))+1;art.style.setProperty('--cw',cw+'px');
  /* 고정 배치: 매번 같은 자리 (가운데 기준으로 열을 놓고 넘치는 열은 양옆에서 잘림) */
- const FIX=[[8,19,4,13,22,6,2],[14,9,0,21,16,3,7],[17,11,18,23,5,20,12],[3,2,12,10,4,13,19],[4,20,16,9,21,6,1],[22,1,8,0,3,18,17],[14,15,19,5,7,11,2],[10,13,7,6,20,16,23],[21,0,22,1,15,9,4],[12,3,11,16,19,8,10]];
+ const FIX=[[8,19,4,13,22,15,2],[14,9,0,21,16,3,7],[17,11,18,23,5,20,12],[3,2,12,10,4,13,19],[4,20,16,9,21,11,1],[22,1,8,0,3,18,17],[14,15,19,5,7,11,2],[10,13,7,12,20,16,23],[21,0,22,1,15,9,4],[12,3,11,16,19,8,10]];
  const OFF=[-60,20,-76,-137,-154,-25,85,-19,-150,-50].map(v=>v+OY);
  const N=ims.length,used=new Array(N).fill(0),grid=FIX.map(col=>[...Array(per)].map((_,r)=>col[r%col.length]));
  const cols=grid.map((_,c)=>{const d=document.createElement('div');d.className='col';d.style.marginTop=(OFF[c]*cw/210)+'px';return d});
