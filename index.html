@@ -268,7 +268,7 @@ figcaption{color:var(--mute);font-size:13px;margin-top:8px}
 .mbover{position:absolute;left:calc(max(0px,(100vw - 1360px)/2) + max(6vw,56px));bottom:clamp(60px,9vw,130px);z-index:2;pointer-events:none;color:var(--ink);margin:0}
 .mbover .mono{color:var(--acc);font-size:12px}
 .mbover h2{font-size:clamp(44px,6.4vw,96px);line-height:1;margin:8px 0 18px;letter-spacing:-.03em}
-.mbsec .bpmark,.mbsec img.bpmark{position:absolute!important;right:14px!important;bottom:12px!important;left:auto!important;top:auto!important;inset:auto 14px 12px auto!important;width:92px!important;height:15px!important;min-width:0!important;min-height:0!important;padding:0!important;background:none!important;aspect-ratio:auto!important;max-width:none!important;opacity:.8;pointer-events:none;z-index:6;filter:drop-shadow(0 1px 3px #000a);object-fit:contain!important;transform:none!important;animation:none!important;border-radius:0!important;box-shadow:none!important}#stgrid{position:relative}.selmodel,.selmodel img{cursor:default!important}
+.mbsec .bpmark,.mbsec img.bpmark{position:absolute!important;right:14px!important;bottom:12px!important;left:auto!important;top:auto!important;inset:auto 14px 12px auto!important;width:92px!important;height:15px!important;min-width:0!important;min-height:0!important;padding:0!important;background:none!important;aspect-ratio:auto!important;max-width:none!important;opacity:.8;pointer-events:none;z-index:6;filter:drop-shadow(0 1px 3px #000a);object-fit:contain!important;transform:none!important;animation:none!important;border-radius:0!important;box-shadow:none!important}#stgrid{position:relative}.mbsec .selstage>img.bpmark{inset:var(--by,auto) auto auto var(--bx,auto)!important;width:var(--bw,92px)!important;height:auto!important;opacity:.9;transition:opacity .3s}.mbsec .selstage>img.bpmark.wait{opacity:0}.selmodel,.selmodel img{cursor:default!important}
 .plats .bp{height:clamp(18px,2vw,27px)}@media (max-width:600px){.plats .psep{flex-basis:100%;height:0!important;background:none!important}.plats{row-gap:12px}}.plats .psep{width:1px;height:clamp(16px,1.8vw,24px);background:#ffffff40}.plats{display:flex;align-items:center;gap:clamp(14px,2vw,28px);flex-wrap:wrap}
 .plats img{height:clamp(16px,1.8vw,24px);width:auto;opacity:.92}
 .mbhero>img{width:100%;height:110%;margin-top:-2%;object-fit:cover;object-position:60% 0%;transform-origin:60% 0%;display:block;will-change:transform;transform:translate3d(var(--mx,0),calc(var(--py,0px) + var(--rise,0px)),0) scale(var(--ps,1.03))}
@@ -2385,6 +2385,14 @@ if(!reduce)setTimeout(()=>{const t0=performance.now(),dur=1100,w=W,h=H,wide=inne
  if(!reduce){addEventListener('scroll',go,{passive:true});hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();mx=(e.clientX-r.left)/r.width-.5;my=(e.clientY-r.top)/r.height-.5;go()});hero.addEventListener('pointerleave',()=>{mx=my=0;go()});go()}
  else hero.classList.add('in')}}
 
+
+/* 버킷플레이 로고: 보이는 그림(시트·3D)의 오른쪽 아래에 겹치기 */
+{const fit=(el,nw,nh)=>{const r=el.getBoundingClientRect();if(!r.width||!r.height)return null;if(!nw||!nh)return r;const k=Math.min(r.width/nw,r.height/nh),w=nw*k,h=nh*k;return {right:r.left+(r.width+w)/2,bottom:r.top+(r.height+h)/2,width:w}};
+ const place=()=>{document.querySelectorAll('.mbsec .selstage').forEach(st=>{const m=st.querySelector(':scope>img.bpmark');if(!m)return;const box=st.closest('.selx');const v3=box&&box.classList.contains('v3d');let t=null;
+  if(v3){const i=st.querySelector('.selmodel img');if(i)t=fit(i,i.naturalWidth,i.naturalHeight)}else{const i=st.querySelector('.selsheet2 img');if(i&&i.naturalWidth)t=fit(i,i.naturalWidth,i.naturalHeight);else{const d=st.querySelector('.sk2strip');if(d)t=d.getBoundingClientRect()}}
+  if(!t||!t.width){m.classList.add('wait');return}m.classList.remove('wait');const S=st.getBoundingClientRect(),bw=Math.round(Math.max(72,Math.min(118,t.width*.16)));const bh=bw*142/864;
+  st.style.setProperty('--bw',bw+'px');st.style.setProperty('--bx',Math.round(t.right-S.left-bw-t.width*.02)+'px');st.style.setProperty('--by',Math.round(t.bottom-S.top-bh-t.width*.025)+'px')})};
+ setInterval(place,250);addEventListener('resize',place);place()}
 /* 마우스가 지나간 자리에 남았다가 사라지는 핑크 붓선 */
 if($('#trail')){const tr=$('#trail'),tx=tr.getContext('2d');let pts=[],on=false;
  function rs(){const d=1;tr.width=innerWidth*d;tr.height=innerHeight*d;tx.setTransform(d,0,0,d,0,0)}
