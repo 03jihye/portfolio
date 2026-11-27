@@ -268,7 +268,7 @@ figcaption{color:var(--mute);font-size:13px;margin-top:8px}
 .mbover{position:absolute;left:calc(max(0px,(100vw - 1360px)/2) + max(6vw,56px));bottom:clamp(60px,9vw,130px);z-index:2;pointer-events:none;color:var(--ink);margin:0}
 .mbover .mono{color:var(--acc);font-size:12px}
 .mbover h2{font-size:clamp(44px,6.4vw,96px);line-height:1;margin:8px 0 18px;letter-spacing:-.03em}
-.mbsec .bpmark,.mbsec img.bpmark{position:absolute!important;right:14px!important;bottom:12px!important;left:auto!important;top:auto!important;inset:auto 14px 12px auto!important;width:92px!important;height:15px!important;min-width:0!important;min-height:0!important;padding:0!important;background:none!important;aspect-ratio:auto!important;max-width:none!important;opacity:.8;pointer-events:none;z-index:6;filter:drop-shadow(0 1px 3px #000a);object-fit:contain!important;transform:none!important;animation:none!important;border-radius:0!important;box-shadow:none!important}#selpaper,#sk2sheet,#stgrid{position:relative}
+.mbsec .bpmark,.mbsec img.bpmark{position:absolute!important;right:14px!important;bottom:12px!important;left:auto!important;top:auto!important;inset:auto 14px 12px auto!important;width:92px!important;height:15px!important;min-width:0!important;min-height:0!important;padding:0!important;background:none!important;aspect-ratio:auto!important;max-width:none!important;opacity:.8;pointer-events:none;z-index:6;filter:drop-shadow(0 1px 3px #000a);object-fit:contain!important;transform:none!important;animation:none!important;border-radius:0!important;box-shadow:none!important}#stgrid{position:relative}.selmodel,.selmodel img{cursor:default!important}
 .plats .bp{height:clamp(18px,2vw,27px)}@media (max-width:600px){.plats .psep{flex-basis:100%;height:0!important;background:none!important}.plats{row-gap:12px}}.plats .psep{width:1px;height:clamp(16px,1.8vw,24px);background:#ffffff40}.plats{display:flex;align-items:center;gap:clamp(14px,2vw,28px);flex-wrap:wrap}
 .plats img{height:clamp(16px,1.8vw,24px);width:auto;opacity:.92}
 .mbhero>img{width:100%;height:110%;margin-top:-2%;object-fit:cover;object-position:60% 0%;transform-origin:60% 0%;display:block;will-change:transform;transform:translate3d(var(--mx,0),calc(var(--py,0px) + var(--rise,0px)),0) scale(var(--ps,1.03))}
@@ -2128,7 +2128,7 @@ const models=["img/model-twins.webp", "img/model-musician.webp", "img/model-pika
   $('#selpts').innerHTML=x.info.map(f=>`<li><span>${f[0]}</span><div><b>${f[1]}</b><p>${f[2]}</p></div></li>`).join('');box.classList.remove('swap')};
   if(anim&&!reduce){box.classList.add('swap');setTimeout(go,320)}else go()}
  chips.addEventListener('click',e=>{const b=e.target.closest('.pchip');if(!b)return;pick(cards.indexOf(b));burst(b)});
- $('#selpaper').addEventListener('click',()=>openLb(sh.src,sh.alt,1));$('#selmodel').addEventListener('click',()=>openLb(mi.src,mi.alt,1));
+ $('#selpaper').addEventListener('click',()=>openLb(sh.src,sh.alt,1));
  function burst(chip){if(reduce)return;const ring=chip.querySelector('.ring'),c=getComputedStyle(chip).getPropertyValue('--c');
   for(let k=0;k<14;k++){const p=document.createElement('i');p.className='spark'+(k%3===0?' st':'');const a=Math.PI*2*k/14+Math.random()*.3,d=44+Math.random()*28;
    p.style.setProperty('--dx',Math.cos(a)*d+'px');p.style.setProperty('--dy',Math.sin(a)*d+'px');p.style.setProperty('--rt',(Math.random()*360-180)+'deg');
@@ -2181,7 +2181,7 @@ const models=["img/model-twins.webp", "img/model-musician.webp", "img/model-pika
  sw.addEventListener('click',e=>{const b=e.target.closest('button');if(b)setRow([...sw.children].indexOf(b))});
  seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;box.classList.toggle('v3d',b.dataset.v==='3d');[...seg.querySelectorAll('button')].forEach(x=>x.classList.toggle('on',x===b))});
  if(SK.length<2)chips.hidden=true;
- $('#sk2sheet').addEventListener('click',()=>{const x=SK[cur];openLb(x.vars?x.vars[row][0]:x.src,x.n+' 원화',1)});$('#sk2model').addEventListener('click',()=>openLb(mi.src,mi.alt,1));
+ $('#sk2sheet').addEventListener('click',()=>{const x=SK[cur];openLb(x.vars?x.vars[row][0]:x.src,x.n+' 원화',1)});
  pick(0,false)}
 
 
